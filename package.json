@@ -1,7 +1,10 @@
 {
-  "name": "jbook",
+  "name": "j-man",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
+  "main": "index.js",
+  "description": "A library that is going to generate interactive manuals for your project",
+  "author": "Emad Baqeri <ebaqeri@protonmail.com> (https://emadbaqeri.me)",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
