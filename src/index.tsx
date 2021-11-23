@@ -20,7 +20,11 @@ const App: React.FC = () => {
     startService().catch(() => true);
   }, [startService]);
 
-  const submitHandler = async (): Promise<void> => {
+  const codeChangeHandler = React.useCallback((event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setInput(event.target.value);
+  }, []);
+
+  const submitHandler = React.useCallback(async (): Promise<void> => {
     if (!ref.current) {
       return;
     }
@@ -29,23 +33,22 @@ const App: React.FC = () => {
       bundle: true,
       write: false,
       plugins: [unpkgPathPlugin()],
+      define: {
+        "process.env.NODE_ENV": '"production"',
+        global: "window",
+      },
     });
 
     setCode(result.outputFiles[0].text);
-  };
+  }, []);
 
   return (
     <div>
-      <textarea
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setInput(e.target.value)}
-        value={input}
-        name="editor"
-        id="editor"
-        cols={30}
-        rows={10}
-      />
+      <textarea cols={30} id="editor" name="editor" onChange={codeChangeHandler} rows={10} value={input} />
       <div>
-        <button onClick={submitHandler}>submit</button>
+        <button onClick={submitHandler} type="submit">
+          {`submit`}
+        </button>
       </div>
       <pre>{code}</pre>
     </div>
