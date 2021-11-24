@@ -20,11 +20,11 @@ const App: React.FC = () => {
     startService().catch(() => true);
   }, [startService]);
 
-  const codeChangeHandler = React.useCallback((event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+  const codeChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setInput(event.target.value);
-  }, []);
+  };
 
-  const submitHandler = React.useCallback(async (): Promise<void> => {
+  const submitHandler = async (): Promise<void> => {
     if (!ref.current) {
       return;
     }
@@ -32,15 +32,15 @@ const App: React.FC = () => {
       entryPoints: ["index.js"],
       bundle: true,
       write: false,
-      plugins: [unpkgPathPlugin()],
+      plugins: [unpkgPathPlugin(input)],
       define: {
-        "process.env.NODE_ENV": '"production"',
+        "process.env.NODE_ENV": `"production"`,
         global: "window",
       },
     });
 
     setCode(result.outputFiles[0].text);
-  }, []);
+  };
 
   return (
     <div>
